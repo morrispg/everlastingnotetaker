@@ -14,6 +14,18 @@ notes.get('/', (req, res) => {
 
 // GET Route for a specific notes
 
+notes.get('/:notes_id', (req, res) => {
+  const notesId = req.params.notes_id;
+  readFromFile('./db/notes.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+      const result = json.filter((notes) => notes.notes_id === notesId);
+      return result.length > 0
+        ? res.json(result)
+        : res.json('No note with that ID');
+    });
+});
+
 
 // DELETE Route for a specific notes
 notes.delete('/:notes_id', (req, res) => {
